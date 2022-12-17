@@ -1,0 +1,45 @@
+﻿@model WebDangKyKhoaHocOnline.Models.OrderDetail
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrderDetails" asp-action="Index">Danh sách khóa học</a>
+            <span class="breadcrumb-item active">Thông tin đơn đăng ký</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title" style="color: black">Thông tin đơn đăng ký</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td width="150">ID:</td>
+                    <td>@Model.OrderDetailId</td>
+                </tr>
+                <tr>
+                    <td>Tên học viên:</td>
+                    <td>@Model.Order.StudentName</td>
+                </tr>
+                <tr>
+                    <td>Tên khóa học:</td>
+                    <td>@Model.Course.CourseName</td>
+                </tr>
+                <tr>
+                    <td>Số lượng:</td>
+                    <td>@Model.Quantity</td>
+                </tr>
+                <tr>
+                    <td>Tổng tiền:</td>
+                    <td>@Model.TotalMoney.Value.ToString("#,##0") VNĐ</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

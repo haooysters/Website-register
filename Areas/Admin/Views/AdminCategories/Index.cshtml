@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebDangKyKhoaHocOnline.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">Danh mục khóa học</a>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <a class="btn btn-primary" asp-action="Create">Tạo mới</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="row">ID</th>
+                    <th scope="row">Tên danh mục</th>
+                    <th scope="row">Mô tả</th>
+                    <th scope="row">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.CatId</th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CatName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+
+                            <td>
+                                <a class="btn btn-primary btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.CatId">Chỉnh sửa</a> |
+                                <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.CatId">Chi tiết</a> |
+                                <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.CatId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

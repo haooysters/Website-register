@@ -1,0 +1,72 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebDangKyKhoaHocOnline.Models.Order>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách đơn đăng ký" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Danh sách học viên : trang @CurrentPage</a>
+        </nav>
+    </div>
+</div>
+@*<div class="col-md-3">
+    <div class="input-affix m-v-10">
+        <select class="custom-select" id="txtCatID" name="txtCatID" style="min-width: 200px;" asp-items="ViewBag.KhoaHoc">
+            <option selected>Chọn danh mục</option>
+            <option value="0">Chọn tất cả</option>
+        </select>
+    </div>
+</div>*@
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="row">ID</th>
+                    <th scope="row">Tên học viên</th>
+                    <th scope="row">Email</th>
+                    <th scope="row">Điện thoại</th>
+                    <th scope="row">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.OrderId</th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudentName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudentEmail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudentPhone)
+                            </td>
+
+                            <td>
+                                <a class="btn btn-primary btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.OrderId">Chỉnh sửa</a> |
+                                <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.OrderId">Chi tiết</a> |
+                                <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.OrderId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div aria-level="Page navigation example">
+            <ul class="pagination">
+                <pager class="paper-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index" />
+            </ul>
+        </div>
+    </div>
+</div>
+

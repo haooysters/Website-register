@@ -1,0 +1,45 @@
+﻿<!-- Sub Header -->
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a asp-controller="Home" asp-action="Index" class="logo">
+                        Oysters edu
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+
+
+                    <ul class="nav">
+                        <li>
+                            @using (Html.BeginForm("KQSearch", "Search"))
+                            {
+                                <div class="input-group">
+                                    <input type="search" name="sKey" class="form-control bg-light border-0 small" placeholder="Tìm kiếm khóa học" required/>
+                                    <div class="input-group-append">
+                                        <input class="btn btn-secondary" type="submit" value="Go">                                                                                  
+                                    </div>
+                                    </div>
+                                    }
+                            </li>
+                        <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li><a href="blog.html">Về chúng tôi</a></li>
+                        <li><a href="course.html">Các khóa học</a></li>
+                        <li><a href="cart.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                        <li class="scroll-to-section"><a href="#contact">Liên hệ</a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+</header>
+<!-- ***** Header Area End ***** -->

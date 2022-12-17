@@ -1,0 +1,63 @@
+﻿@model WebDangKyKhoaHocOnline.Models.Order
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Danh sách học viên</a>
+            <span class="breadcrumb-item active">Xác nhận xóa học viên</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4 style="color: black">Xác nhận xóa học viên ?</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td width="150">ID:</td>
+                    <td>@Model.OrderId</td>
+                </tr>
+                <tr>
+                    <td>Tên học viên:</td>
+                    <td>@Model.StudentName</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>@Model.StudentEmail</td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại:</td>
+                    <td>@Model.StudentPhone</td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ:</td>
+                    <td>@Model.StudentAddress</td>
+                </tr>
+                <tr>
+                    <td>Credit card:</td>
+                    <td>@Model.CreditCard</td>
+                </tr>
+                <tr>
+                    <td>Ngày sinh:</td>
+                    <td>@Model.StudentBirthday</td>
+                </tr>
+                <tr>
+                    <td>Ngày tạo:</td>
+                    <td>@Model.OrderDate</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="OrderId" />
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,70 @@
+﻿@model WebDangKyKhoaHocOnline.Models.Course
+
+@{
+    ViewData["Title"] = "Tạo khóa học mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminCourses" asp-action="Index">Danh sách khóa học</a>
+            <span class="breadcrumb-item active">Tạo mới khóa học</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <h4 class="card-title" style="color: black">Tạo mới khóa học</h4>
+                <form asp-controller="AdminCourses" asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="CourseName" class="control-label">Tên khóa học</label>
+                        <input asp-for="CourseName" class="form-control" placeholder="Nhập tên khóa học" required />
+                        <span asp-validation-for="CourseName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">Học phí</label>
+                        <input asp-for="Price" class="form-control" placeholder="Nhập học phí" required/>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CatId" class="control-label">Danh mục khóa học</label>
+                        <select asp-for="CatId" class="form-control" asp-items="ViewBag.DanhMuc">
+                            <option value="" disabled selected>Chọn danh mục</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ShortDesc" class="control-label">Mô tả ngắn</label>
+                        <input asp-for="ShortDesc" class="form-control" placeholder="Nhập mô tả ngắn" />
+                        <span asp-validation-for="ShortDesc" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">Mô tả chi tiết</label>
+                        <textarea rows="4" asp-for="Description" class="form-control" placeholder="Nhập mô tả chi tiết"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Thumb" class="control-label">Ảnh đại diện</label>
+                        <input asp-for="Thumb" name="fThumb" type="file" class="form-control-file" />
+                        <span asp-validation-for="Thumb" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <div class="form-switch m-r-10">
+                            <input type="checkbox" @Html.CheckBox("Active")
+                            <label>Trạng thái</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Tạo mới" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

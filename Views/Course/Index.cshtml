@@ -1,0 +1,100 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebDangKyKhoaHocOnline.Models.Course>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    int PageNext = CurrentPage + 1;
+    ViewData["Title"] = "Course - " + CurrentPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="heading-page header-text" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 style="color:azure">KHÓA HỌC TIẾNG ANH ONLINE</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="row grid">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            string url = $"/{item.CourseName}-{item.CourseId}.html";
+                            <div class="col-lg-4 templatemo-item-col all soon">
+                                <div class="meeting-item">
+                                    <div class="thumb">
+                                        <div class="price">
+                                            <span>@item.Price.Value.ToString("#,##0") VNĐ</span>
+                                        </div>
+                                        <a href="@url"><img src="images/courses/@item.Thumb" alt=""></a>
+                                    </div>
+                                    <div class="down-content">
+                                        <div class="date">
+                                            <button type="button" class="ajax-add-to-cart buy-now btn btn-danger btn-tone m-r-5" data-id="@item.CourseId">Đăng Ký</button>
+                                        </div>
+                                        <a href="@url"><h5 style="color:black">@item.CourseName</h5></a>
+                                        <br />
+                                        <p>@item.ShortDesc</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <pager list="@Model" options="@PagedListRenderOptions.PageNumbersPlusPrevAndNext" asp-controller="Course" asp-action="Index" />
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".ajax-add-to-cart").click(function () {
+                $.ajax({
+                    url: "/Cart/AddToCart",
+                    data: {
+                        id: $(this).data("id"),
+                        SoLuong: 1,
+                        type: "ajax"
+                    },
+                    success: function (data) {
+                        Swal.fire({
+                            icon: 'success',                            
+                            text: 'Thêm khóa học thành công!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                        console.log(data.soLuong);
+                        $("#cart_count").html(data.soLuong);
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thêm giỏ hàng thất bại',
+                            text: 'Vui lòng thử lại',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

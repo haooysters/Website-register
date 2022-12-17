@@ -1,0 +1,119 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebDangKyKhoaHocOnline.Models.OrderDetail>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách đơn đăng ký" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrderDetails" asp-action="Index">Danh sách đơn đăng ký : trang @CurrentPage</a>
+        </nav>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="input-affix m-v-10">
+        <select class="custom-select" id="txtCourseID" name="txtCourseID" style="min-width: 200px;" asp-items="ViewBag.KhoaHoc">
+            <option selected>Chọn khóa học</option>
+            <option value="0">Chọn tất cả</option>
+        </select>
+    </div>
+</div>
+<br />
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="row">ID</th>
+                    <th scope="row">Tên học viên</th>                    
+                    <th scope="row">Khóa học</th>
+                    <th scope="row" width="150">Học phí</th>
+                    <th scope="row">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.OrderDetailId</th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Order.StudentName)
+                            </td>                          
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Course.CourseName)
+                            </td>
+                            <td>
+                                @item.Course.Price.Value.ToString("#,##0") VNĐ
+                            </td>
+                            <td width="300">
+                                <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.OrderDetailId">Chi tiết</a> |
+                                <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.OrderDetailId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div aria-level="Page navigation example">
+            <ul class="pagination">
+                <pager class="paper-container" list="@Model" asp-area="Admin" asp-controller="AdminOrderDetails" asp-route-CourseID="@ViewBag.CurrentCauseID" asp-action="Index" />
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            jQuery("#txtCourseID").change(function () {
+                var courseID = jQuery(this).children(":selected").attr("value");
+                courseID = parseFloat(courseID);
+                $('#txtCourseID option')
+                    .removeAttr('selected');
+                $("#txtCourseID > [value=" + courseID + "]").attr("selected", "true");
+                $.ajax({
+                    url: '/Admin/AdminOrderDetails/Filtter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        CourseID: courseID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $("#keyword").keyup(function () {
+                var strkeyword = $('#keyword').val();
+                $.ajax({
+                    url: '/Admin/Search/FindProduct/',
+                    datatype: "json",
+                    type: "POST",
+                    data: { keyword: strkeyword },
+                    async: true,
+                    success: function (results) {
+                        $("#records_table").html("");
+                        $("#records_table").html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+        });
+    </script>
+}

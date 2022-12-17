@@ -1,0 +1,127 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebDangKyKhoaHocOnline.Models.Course>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách khóa học" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminCourses" asp-action="Index">Danh sách khóa học : trang @CurrentPage</a>
+        </nav>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="input-affix m-v-10">
+        <select class="custom-select" id="txtCatID" name="txtCatID" style="min-width: 200px;" asp-items="ViewBag.DanhMuc">
+            <option selected>Chọn danh mục</option>
+            <option value="0">Chọn tất cả</option>
+        </select>
+    </div>
+</div>
+<br />
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6"><a class="btn btn-primary" asp-action="Create">Tạo mới</a></div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="row">ID</th>
+                        <th scope="row">Tên khóa học</th>
+                        <th scope="row">Danh mục</th>
+                        <th scope="row">Học phí</th>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@item.CourseId</th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CourseName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cat.CatName)
+                                </td>
+                                <td width="150">
+                                    @item.Price.Value.ToString("#,##0") VNĐ
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Active)
+                                </td>
+                                <td width="300">
+                                    <a class="btn btn-primary btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.CourseId">Chỉnh sửa</a> |
+                                    <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.CourseId">Chi tiết</a> |
+                                    <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.CourseId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div aria-level="Page navigation example">
+                <ul class="pagination">
+                    <pager class="paper-container" list="@Model" asp-area="Admin" asp-controller="AdminCourses" asp-route-CatID="@ViewBag.CurrentCateID" asp-action="Index" />
+                </ul>
+            </div>
+        </div>
+    </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            jQuery("#txtCatID").change(function () {
+                var catID = jQuery(this).children(":selected").attr("value");
+                catID = parseFloat(catID);
+                $('#txtCatID option')
+                    .removeAttr('selected');
+                $("#txtCatID > [value=" + catID + "]").attr("selected", "true");
+                $.ajax({
+                    url: '/Admin/AdminCourses/Filtter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        CatID: catID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $("#keyword").keyup(function () {
+                var strkeyword = $('#keyword').val();
+                $.ajax({
+                    url: '/Admin/Search/FindProduct/',
+                    datatype: "json",
+                    type: "POST",
+                    data: { keyword: strkeyword },
+                    async: true,
+                    success: function (results) {
+                        $("#records_table").html("");
+                        $("#records_table").html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+        });
+    </script>
+}

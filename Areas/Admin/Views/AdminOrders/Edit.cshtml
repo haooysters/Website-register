@@ -1,0 +1,69 @@
+﻿@model WebDangKyKhoaHocOnline.Models.Order
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class='fa fa-home fa-lg' style='color:#007bff'></i> Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Danh sách học viên</a>
+            <span class="breadcrumb-item active">Chỉnh sửa thông tin học viên</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5">
+                <h4 class="card-title" style="color: black">Chỉnh sửa thông tin học viên</h4>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="OrderId" />
+                    <div class="form-group">
+                        <label asp-for="StudentName" class="control-label">Họ và tên</label>
+                        <input asp-for="StudentName" class="form-control" required />
+                        <span asp-validation-for="StudentName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StudentEmail" class="control-label">Email</label>
+                        <input asp-for="StudentEmail" class="form-control" required />
+                        <span asp-validation-for="StudentEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StudentPhone" class="control-label">Số điện thoại</label>
+                        <input asp-for="StudentPhone" class="form-control" required/>
+                        <span asp-validation-for="StudentPhone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StudentAddress" class="control-label">Địa chỉ</label>
+                        <input asp-for="StudentAddress" class="form-control" required/>
+                        <span asp-validation-for="StudentAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CreditCard" class="control-label">Credit Card</label>
+                        <input asp-for="CreditCard" class="form-control"/>
+                        <span asp-validation-for="CreditCard" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StudentBirthday" class="control-label">Ngày sinh</label>
+                        <input asp-for="StudentBirthday" class="form-control" required/>
+                        <span asp-validation-for="StudentBirthday" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OrderDate" class="control-label">Ngày tạo</label>
+                        <input asp-for="OrderDate" class="form-control" readonly/>
+                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                        <input type="reset" value="Trở lại" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

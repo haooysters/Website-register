@@ -1,0 +1,124 @@
+﻿@model WebDangKyKhoaHocOnline.Models.Course
+
+@{
+    ViewData["Title"] = "Chi tiết khóa học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="heading-page header-text" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5 style="color:azure">Chi tiết về khóa học</h5>
+                <h1 style="color:azure">@Model.CourseName</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class="row">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="meeting-single-item">
+                        <div class="thumb">
+                            <div class="price">
+                                <span>@Model.Price.Value.ToString("#,##0")  VNĐ</span>
+                            </div>
+
+                            <a href="meeting-details.html"><img src="~/images/courses/@Model.Thumb" height="400" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="meeting-details.html"><h4>@Model.CourseName</h4></a>
+                            <p class="description">
+                                @Model.Description
+                            </p>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="hours">
+                                        <h5>Thời gian học</h5>
+                                        <p>Thứ 2, 4, 6: 18:00 PM - 21:00 PM<br>Thứ 3, 5, 7: 18:00 PM - 21:00 PM</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="location">
+                                        <h5>Hình thức học</h5>
+                                        <p>
+                                            Học Online qua Google Meet hoặc Zoom
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="book now">
+                                        <h5>Liên hệ nhanh</h5>
+                                        <p>0945 88 55 70<br>0909 009 009</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+    $(document).ready(function () {
+        $(function () {
+            $(".add-to-cart").click(function () {
+                var courseid = $('#CourseId').val();
+                var soLuong = $('#txtsoLuong').val();
+                $.ajax({
+                    url: '/api/cart/add',
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        CourseId: courseid,
+                        amount: soLuong
+                    },
+                    success: function (response) {
+                        if (response.result == 'Redirect') {
+                            window.location = response.url;
+                        }
+                        else {
+                            loadHeaderCart(); //Add Product success
+                            location.reload();
+                        }
+                        console.log(response); // log to the console to see whether it worked
+                    },
+                    error: function (error) {
+                        alert("There was an error posting the data to the server: " + error.responseText);
+                    }
+                });
+            });
+
+            @*$(".removecart").click(function () {
+                var productid = $(this).attr("data-productid");
+                $.ajax({
+                    url: "api/cart/remove",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { productID: productid },
+                    success: function (result) {
+                        if (result.success) {
+                            loadHeaderCart();//Reload lai gio hang
+                            location.reload();
+                        }
+                    },
+                    error: function (rs) {
+                        alert("Remove Cart Error !")
+                    }
+                });
+            });*@
+        });
+        function loadHeaderCart() {
+            $('#miniCart').load("/AjaxContent/HeaderCart");
+            $('#numberCart').load("/AjaxContent/NumberCart");
+        }
+    });
+    </script>
+
+}
